@@ -295,11 +295,33 @@
 
 
 				<script src="js/add_video_slide.js" slide_scene="LEUP"></script>
+
+				<section>
+						<h3> $LE_LUP$ Factorization</h3>
+						<ul>
+						<li> Always exists for any matrix.</li>
+						<li> Exactly zero elements are frequent as we are in the finite field setting.</li>
+						<li> Obtained by only allowing column pivoting.</li>
+						<li> Other versions exist : $PU\hat{E}_LL$, $PLE_UU$ and $U\hat{E}_ULP$.</li>
+					</ul>
+				</section>
+
 				<script src="js/add_video_slide.js" slide_scene="QuiverAlg"></script>
 				<!--<script src="js/add_video_slide.js" slide_scene="LELCommute"></script>-->
 				<script src="js/add_video_slide.js" slide_scene="LEL_full"></script>
 				<!--<script src="js/add_video_slide.js" slide_scene="FullQuiverAlgR"></script>-->
 				<script src="js/add_video_slide.js" slide_scene="ZigzagQuiverAlg"></script>
+
+				<section>
+						<h3> Quiver Algorithm </h3>
+						<ul>
+						<li> Forward sweep consists of performing factorizations.</li>
+						<li> Use either $LE_LUP$ or $PU\hat{E}_LL$ factorization depending on arrow direction.</li>
+						<li> All matrix passing operations are $\mathcal{O}(n^2)$ operations.</li>
+						<li> Reverse sweep consists of shape commutation operations. </li>
+						<li> Reverse sweep not necessary if only the barcodes are required.</li>
+					</ul>
+				</section>
 
 				<section>
 						<h3> Divide and Conquer Algorithm </h3>
@@ -334,9 +356,6 @@
 
 				<script src="js/add_video_slide.js" slide_scene="Applications1"></script>
 
-				<section>
-						<h3> Acknowledgement </h3>
-				</section>
 
 				<section>
 						<h3>Questions?</h3>
