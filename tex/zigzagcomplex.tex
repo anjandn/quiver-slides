@@ -1,0 +1,16 @@
+\documentclass[tikz=true]{standalone}
+%\usepackage{tikz}
+\usetikzlibrary{cd} % tikz package already loaded by 'tikz' option
+\usepackage{amsfonts}
+\newcommand{\X}{\mathcal{X}} % topological space
+\begin{document}
+
+\begin{tikzcd}
+H_k(X_0)\arrow{r}[above]{\hat{\phi}_0}
+& H_k(X_1)
+& \arrow{l}[above]{\hat{\phi}_1}  H_k(X_2)  \arrow{r}[above]{\hat{\phi}_2}
+& H_k(X_{3})
+& \arrow{l}[above]{\hat{\phi}_{3}}  \cdots
+\end{tikzcd}
+
+\end{document}

@@ -1,0 +1,439 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Quiver Theory, Zigzag homology and Deep Learning</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<!-- <link rel="stylesheet" href="css/theme/black.css"> -->
+		<link rel="stylesheet" href="css/theme/serif.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<link rel="stylesheet" href="css/custom.css">
+
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+				<section data-background-video="video_slides/Title.mp4" data-background-video-muted data-background-video-loop>
+						<h3>Quiver Theory, Zigzag homology and Deep Learning</h3>
+						<p></br></p>
+						<h4>Anjan Dwaraknath</h4>
+						<h4>Institute for Computational and Mathematical Engineering</h4>
+						<p>
+							August 20, 2020 </br>
+							<a href="https://anjandn.github.io/def_slides">anjandn.github.io/quiver-slides</a>
+						</p>
+
+
+					</section>
+
+					<section>
+						<h3> Collaborators/Support</h3>
+						<p>
+							Collaborators who appear in this work
+							<ul>
+								<li>Gunnar Carlsson</li>
+								<li>Bradley Nelson</li>
+							</ul>
+						</p>
+						<p>
+							Funding I've received while working on these topics
+							<ul>
+								<li>Stanford Graduate Fellowship</li>
+							</ul>
+						</p>
+					</section>
+
+					<section>
+						<h3> Outline </h3>
+						<ol>
+							<li>Topological Data Analysis Background</li>
+							<li>Quiver Representation Framework for TDA</li>
+							<li>Algorithms</li>
+							<li>Application of Zigzag homology to MNIST</li>
+						</ol>
+					</section>
+
+					<section>
+							<h3> Topological Data Analysis </h3>
+							<p> Applies techniques from algebraic topology to study data </p>
+							<p> Models datasets as a topological space by constructing <b>Simplicial complexes</b> </p>
+							<p> Studies the various topological invariants to better understand the data</p>
+							<p> Many applications have been developed, ranging from drug discovery to neuroscience </p>
+
+					</section>
+
+					<script src="js/add_video_slide.js" slide_scene="Applications2"></script>
+
+					<section>
+							<h3> Chain Complex </h3>
+							<p> A chain complex is a sequence of vector spaces derived from a simplicial complex by using simplices as formal basis vectors </p>
+							<img src="tex/chaincomplex-1.png" alt="ChainComplex" border=0><br />
+							<p>The linear transformation on the arrows are the boundary operators and satisfy the property </p>
+								\[\partial_k \circ \partial_{k+1} = 0\]
+
+
+					</section>
+
+					<section>
+							<h3> Homology </h3>
+							<p> Homology aims to characterize the number and types of 'holes' in your topological space </p>
+							\[ H_k(C) = \text{ker }\partial_{k} / \text{im }\partial_{k+1}\]
+							<p>The rank of these vector spaces correspond to the <b>Betti numbers</b></p>
+							<p class="fragment fade-in"> Homology is <i>functorial</i> </p>
+					</section>
+
+					<section>
+							<h3> Functoriality </h3>
+							<p>Functoriality is a property that allows us to extend constructions to the maps between the objects </p>
+
+							<img src="tex/hom.png"><br />
+							<p>The Homology construction $H_k$ takes chain complexes to vector spaces.
+								 Due to functoriality, $H_k$ takes takes chain maps to linear transformations.</p>
+					</section>
+
+					<section>
+							<h3> Persistent Homology </h3>
+							<p>If we have a sequence of chain complexes with chain maps between them,
+							<img src="tex/seqchainmap.png"><br />
+							<p> We can apply homology to each chain complex and due to functoriality, we get,
+							<img src="tex/persistence.png" ><br />
+					</section>
+
+					<script src="js/add_video_slide.js" slide_scene="RipsDiagram"></script>
+
+					<section>
+							<h3> Zigzag Homology </h3>
+							 In persistence homology, all the maps were in the same direction, we can also have a zigzag diagram of chain complexes
+							<p class="fragment fade-in">
+							<img src="tex/zigzag.png" alt="zigzag" border=0><br /></p>
+							<p class="fragment fade-in"> Applying the Homology functor, we obtain a zigzag diagram of vector spaces.
+							<img src="tex/zigzagcomplex.png" ><br />
+					</section>
+
+
+
+					<section>
+							<h3> Why is Zigzag interesting? </h3>
+							Although, it seems like a small change, of allowing arrow directions to change,
+							<ol>
+								<li>It is not obvious that there is a simple classification of zigzag diagrams upto isomorphism. </li>
+								<li>Only one stable implementation is available : dionysus library</li>
+								<li>The algorithms in the literature for zigzag are very different compared to standard persistence</li>
+								<li>New interesting applications are possible with zigzag homology</li>
+							</ol>
+					</section>
+
+					<section>
+							<h3> Application of Zigzag Homology </h3>
+							<p> Suppose there is a large dataset for which we wish to compute the homology </p>
+							<img src="images/bt1.PNG" height=200><br />
+							<p> One might undersample the dataset before applying the TDA pipeline </p>
+
+					</section>
+
+					<section>
+								<img src="images/bt2.PNG" height=150><br />
+							<p> In order to build statistical confidence, the process might be repeated with different samples </p>
+								<img src="images/bt3.PNG" height=150><br />
+							<p> How do we know if the features discovered in one sampling correspond to the ones discovered in the other?</p>
+					</section>
+
+					<section>
+							<h3> Topological Bootstrapping </h3>
+							<p> We can construct a zigzag diagram from the various samplings <p/>
+							<img src="tex/zigzagunions-1.png" ><br />
+							<p> A zigzag diagram with unions of samplings, ensures that we can always find a map </p>
+							<p> Long bars correspond to the same feature being discovered in multiple samplings</p>
+					</section>
+
+					<section>
+							<h3> Application of Zigzag - Level sets </h3>
+							<p> Suppose we define a function over our dataset </p>
+							<p> Standard persistence homology only allows us to study superlevel or sublevel sets </p>
+							<p> Zigzag homology allows us to study an interval level set or in the continuous limit, the level sets themselves</p>
+							<img src="tex/zigzagintersections.png" ><br />
+					</section>
+
+					<section>
+							<h3> Application of Zigzag - Level sets </h3>
+							<p>Level set homology can be very different from sublevel or superlevel set homology. </p>
+							<img src="images/levelset.PNG" ><br />
+					</section>
+
+					<section>
+							<h3> Existence of Zigzag barcodes</h3>
+							<p> Theorem from Gabriel (1972) <a href="#/bib">[G 72]</a> showed that zigzag diagrams can be decomposed into a finite direct sum of interval indecomposables </p>
+							<p> As we will see later, this directly translates into the existence of barcodes. </p>
+							<p> The original theorem only proves existence and uses the language of quiver representations. </p>
+					</section>
+
+
+					<section>
+							<h3> Previous Algorithms </h3>
+
+							<p>Algorithm from <a href="#/bib">[CdSM 09]</a>
+							<div>
+							<div style="float:left;">
+								<img src="images/mrzvalg1.PNG" border="0" height="500">
+							</div>
+							<div  style="float:left;">
+								<img src="images/mrzvalg2.PNG" border="0" height="500">
+							</div>
+
+						  </div>
+
+					</section>
+
+					<section>
+							<h3> Contributions </h3>
+							A new framework to construct algorithms for TDA - using quiver representations and matrix factorization.
+							<ul>
+							<li> It encapsulates computing homology analogous to how it is done in theory allowing for trivial parallelizability.</li>
+							<li> Upto 600x speedup over existing libraries for zigzag homology. </li>
+							<li> Algorithms for persistence and zigzag homology are placed in the same setting.</li>
+
+						</ul>
+					</section>
+
+					<section>
+							<h3> Contributions </h3>
+							<ul>
+							<li> In addition to trivial parallelizability of homology, it allows for a divide and conquer approach.</li>
+							<li> Can handle non-inclusion maps.</li>
+							<li> The algorithm is general enough to serve as a new constructive proof of Gabriel's Theorem for type A quivers.</li>
+						</ul>
+
+						<p>For details : <a href="https://arxiv.org/abs/1911.10693">Persistent and Zigzag Homology: A Matrix Factorization Viewpoint</a> <a href="#/6/3">[C<font color="#cc1b38"><strong>D</strong></font>N 19]</a><br/>
+						Code: <a href="https://github.com/bnels/BATS">BATS</a> and <a href="https://github.com/bnels/BATS.py">BATS.py</a><br />
+
+					</section>
+
+					<section>
+						<h3> Trivial Parallelizability </h3>
+						As we had seen earlier, the zigzag diagram is computed using Functoriality
+					 <img src="tex/zigzag.png" alt="zigzag" border=0><br /></p>
+					 <img src="tex/zigzagcomplex.png" ><br />
+					 <p> Using the new framework, we can apply the same principle for computation.
+						 Homology can be computed in parallel, followed by extracting the barcodes from the zigzag diagram</p>
+				  </section>
+
+					<section>
+						<h3> Topologists' Perspective </h3>
+						<p>Topologists have always been using this approach.
+						They compute homology of the pieces and all their intersections, then assemble it together</p>
+						<p>For example: Mayer–Vietoris sequences and Spectral Sequences.</p>
+
+						<p>The new framework enables us to translate that thinking directly into algorithms.</p>
+
+
+				  </section>
+
+
+					<section>
+							<h3> New Matrix Factorization Perspective </h3>
+							Outline
+							<ul>
+							<li> Quiver representations </li>
+							<li> Convenient methods to change basis algorithmically</li>
+							<li> Linear algebra tools</li>
+							<li> Quiver algorithm </li>
+						</ul>
+					</section>
+
+
+					<script src="js/add_video_slide.js" slide_scene="QuiverIntro"></script>
+					<section>
+							<h3> Companion Matrix </h3>
+							<p> The companion matrix of a quiver is the block adjacency matrix, with the quiver edge matrices as the blocks </p>
+							\[ V_0 \leftarrow V_1 \leftarrow V_2 \;\;\;\;\;\;\;\;\;\;  V_0 \rightarrow V_1 \leftarrow V_2 \]
+							\[
+							\begin{bmatrix}
+							0    & A_0\\
+							&0 & A_1 \\
+							& & 0
+							\end{bmatrix}
+							\;\;\;\;\;\;\;
+							\begin{bmatrix}
+							0    & \\
+							A_0 &0 & A_1 \\
+							& & 0
+							\end{bmatrix}
+							\]
+					</section>
+				  <script src="js/add_video_slide.js" slide_scene="Canonical"></script>
+					<script src="js/add_video_slide.js" slide_scene="Canonical2"></script>
+					<section>
+							<h3> The Canonical Form </h3>
+							<p> The existence of the canonical form is guaranteed by Gabriel's theorem. <a href="#/bib">[G 72]</a> </p>
+							<p> The E matrices are pivot matrices - each row and column have at most one 1. </p>
+							<p> Since we are doing a similarity transformation - this is similar to an eigenvalue or Jordan decomposition. </p>
+							<p> However it is not an arbitrary similarity transformation, the matrices are restricted to be block diagonal. </p>
+					</section>
+
+				<script src="js/add_video_slide.js" slide_scene="MatrixPassing_diag"></script>
+				<script src="js/add_video_slide.js" slide_scene="MatrixPassing_mat"></script>
+				<script src="js/add_video_slide.js" slide_scene="MatrixPassing_pass"></script>
+
+
+				<script src="js/add_video_slide.js" slide_scene="LEUP"></script>
+				<script src="js/add_video_slide.js" slide_scene="QuiverAlg"></script>
+				<!--<script src="js/add_video_slide.js" slide_scene="LELCommute"></script>-->
+				<script src="js/add_video_slide.js" slide_scene="LEL_full"></script>
+				<!--<script src="js/add_video_slide.js" slide_scene="FullQuiverAlgR"></script>-->
+				<script src="js/add_video_slide.js" slide_scene="ZigzagQuiverAlg"></script>
+
+				<section>
+						<h3> Divide and Conquer Algorithm </h3>
+						<p> We can parallelize even further than the trivial parallelizability we saw before.</p>
+						<p> We can divide up a very long quiver into two parts. </p>
+						<p> Run a version of the quiver algorithm on each in parallel. </p>
+						<p> Stitch them together in the merge step. </p>
+				</section>
+
+				<section>
+						<h3> Application of Zigzag homology to MNIST </h3>
+						<p> Can we use TDA to produce features that are more human-like. </p>
+						<p> We first convert the image to a graph of non-zero pixel, then construct the flag complex </p>
+						<img src="images/cs230_8pic.png"><br />
+				</section>
+
+				<section>
+						<h3> Featurization </h3>
+						<p> To include orientation information, we sweep the image along 8 directions, to produce a directional barcode. </p>
+						<!--<img src="images/cs230_8barcode.png"><br />-->
+						<p> Neural networks require finite representation as inputs, so symmetric polynomial featurization is used. </p>
+							\[ F(m,n) = \sum_{i=1}^{N_f} (b_i+d_i)^m(d_i-b_i)^n \]
+				</section>
+
+				<section>
+						<h3> Results </h3>
+						<p> A feed forward neural network was trained on the polynomial features to classify the digits. </p>
+						 <p>Zigzag homology performed better, because an interval scan of the image of the digit, is more expressive than just using the sublevel sets.</p>
+						<img src="images/cs230_table.png"><br />
+
+				</section>
+
+				<script src="js/add_video_slide.js" slide_scene="Applications1"></script>
+
+				<section>
+						<h3> Acknowledgement </h3>
+				</section>
+
+				<section>
+						<h3>Questions?</h3>
+				</section>
+
+				<section id="bib">
+						<h3> Bibliography </h3>
+
+						<p><div class="scrollable"><small>
+
+							[C<font color="#cc1b38"><strong>D</strong></font>N 19] Carlsson, Dwaraknath, Nelson.  Persistent and Zigzag Homology: A Matrix Factorization Viewpoint. 2019.
+							<br />
+							[CdS 10] Carlsson, de Silva. Zigzag Persistence. 2010.
+							<br />
+							[CdSM 09] Carlsson, de Silva, Morozov. Zigzag Persistent Homology and Real-valued Functions. 2009.
+							<br />
+							[N 20] Nelson. Parameterized Topological Data Analysis. 2020.
+							<br />
+							[G 72] Gabriel. Unzerlegbare Darstellungen I. 1972.
+							<br />
+							[GN<font color="#cc1b38"><strong>D</strong></font>+ 20] Gabrielsson, Nelson, Dwaraknath, Skraba, Carlsson, Guibas.  A Topology Layer for Machine Learning. 2020.
+							<br />
+							[M] Morozov. Dionysus2. <a href="https://mrzv.org/software/dionysus2/">https://mrzv.org/software/dionysus2/</a>
+							<br />
+							[ZC 05] Zomorodian, Carlsson. Computing Persistent Homology. 2005.
+						</small></div></p>
+					</section>
+
+
+				<section>
+						<h3>Slides were made using the following libraries</h3>
+						<ul>
+							<li>HTML Slides : <strong>Reveal.js</strong> - <a href=https://github.com/hakimel/reveal.js/>https://github.com/hakimel/reveal.js</a></li>
+							<li>Animations : <strong>Manim</strong> - <a href=https://github.com/3b1b/manim>https://github.com/3b1b/manim</a></li>
+							<li>The code to glue them together - <a href=https://github.com/anjandn/manim_reveal>https://github.com/anjandn/manim_reveal</a></li>
+						</ul>
+
+				</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				//	{ src: 'plugin/math/math.js', async: true },
+
+			],
+				math: {
+		      mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+		      config: 'TeX-AMS_HTML-full',
+		      // pass other options into `MathJax.Hub.Config()`
+		      TeX: { Macros: { RR: "{\\bf R}" } }
+		    },
+		    plugins: [ RevealMath ],
+				slideNumber: true,
+			});
+
+		</script>
+
+		<script src="js/video_slide.js"></script>
+
+		<style>
+			.reveal.slide .slides > section, .reveal.slide .slides > section > section {
+			  min-height: 100% !important;
+			  display: flex !important;
+			  flex-direction: column !important;
+			  justify-content: center !important;
+			  position: absolute !important;
+			  top: 0 !important;
+			  align-items: center !important;
+			}
+			section > h1, section > h2, section > h3 {
+			  position: absolute !important;
+			  top: 0 !important;
+			  margin-left: auto !important;
+			  margin-right: auto !important;
+			  left: 0 !important;
+			  right: 0 !important;
+			  text-align: center !important;
+			}
+
+			.print-pdf .reveal.slide .slides > section, .print-pdf .reveal.slide .slides > section > section {
+			  min-height: 770px !important;
+			  position: relative !important;
+			}
+
+			img{border:0px;}
+		</style>
+	</body>
+</html>

@@ -1,0 +1,12 @@
+\documentclass[tikz=true]{standalone}
+%\usepackage{tikz}
+\usetikzlibrary{cd} % tikz package already loaded by 'tikz' option
+\usepackage{amsfonts}
+\newcommand{\X}{\mathcal{X}} % topological space
+\begin{document}
+
+\begin{tikzcd}
+X_0\arrow{r}[above]{phi_0} & X_1 \arrow{r}[above]{\phi_1}  & \cdots \arrow{r}[above]{\phi_j} & X_{j+1} \arrow{r}[above]{\phi_{j+1}} & \cdots 
+\end{tikzcd}
+
+\end{document}

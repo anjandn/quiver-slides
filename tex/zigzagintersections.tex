@@ -1,0 +1,18 @@
+\documentclass[tikz=true]{standalone}
+%\usepackage{tikz}
+\usetikzlibrary{cd} % tikz package already loaded by 'tikz' option
+\usepackage{amsfonts}
+\newcommand{\X}{\mathcal{X}} % topological space
+\begin{document}
+
+\begin{tikzcd}
+X_0
+& \arrow{l}[above]{\phi_1} X_0 \cap X_1 \arrow{r}[above]{ \phi_2}
+& X_1
+& \arrow{l}[above]{\phi_3} X_1 \cap X_2 \arrow{r}[above]{ \phi_4}
+& X_2
+& \arrow{l}[above]{\phi_5} X_2 \cap X_3 \arrow{r}[above]{ \phi_6}
+& \cdots
+\end{tikzcd}
+
+\end{document}

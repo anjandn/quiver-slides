@@ -1,0 +1,15 @@
+\documentclass[tikz=true]{standalone}
+%\usepackage{tikz}
+\usetikzlibrary{cd} % tikz package already loaded by 'tikz' option
+\usepackage{amsfonts}
+\newcommand{\X}{\mathcal{X}} % topological space
+\begin{document}
+
+\begin{center}
+\begin{tikzcd}
+0 &V_0\arrow{l} & V_1 \arrow{l}[above]{\partial_1} & \cdots \arrow{l}[above]{\partial_2} & V_k \arrow{l}[above]{\partial_k} & \cdots \arrow{l}[above]{\partial_{k+1}}
+\end{tikzcd}
+\end{center}
+
+
+\end{document}
